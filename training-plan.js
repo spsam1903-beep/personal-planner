@@ -5,7 +5,7 @@ const $=q=>document.querySelector(q),escape=s=>String(s??"").replace(/[&<>"']/g,
 function dateAt(week,weekday){const start=new Date(START+"T12:00:00");start.setDate(start.getDate()+week*7+weekday);return [start.getFullYear(),String(start.getMonth()+1).padStart(2,"0"),String(start.getDate()).padStart(2,"0")].join("-")}
 function round5(x){return Math.max(5,Math.round(x/5)*5)}function round50(x){return Math.max(200,Math.round(x/50)*50)}
 function phase(w){if(w>=33)return"Taper";if(w>=26)return"Race-specific";if(w>=16)return"Build";if(w>=8)return"Base";return"Adaptation"}
-function scale(w){if(w===34)return .3;if(w===33)return .57;if(w<32&&(w+1)%4===0)return .76;return 1}
+function scale(w){if(w===34)return 1;if(w===33)return .57;if(w<32&&(w+1)%4===0)return .76;return 1}
 function makeWorkout(w,day,code,sport,title,duration,distance,unit,intensity,notes){
  const scaleFactor=scale(w);
  return {id:"plan-"+PLAN_ID+"-"+w+"-"+code,planId:PLAN_ID,planKey:"w"+(w+1)+"-"+code,planWeek:w+1,date:dateAt(w,day),sport,title,
@@ -22,6 +22,7 @@ function buildWeek(w){
   push(2,"bike","Bike","Short race-week spin",30,"","mi","Easy","Keep effort very light; check bike readiness and equipment.");
   push(3,"run","Run","Easy shakeout run",20,"","mi","Comfortable conversational jog. Rest if fatigued.");
   push(5,"prep","Recovery","Race preparation and gear check",15,"","","Recovery","Optional light mobility and gear check. Prepare nutrition and transitions; rest as needed.");
+  sessions.push({id:"plan-"+PLAN_ID+"-34-race",planId:PLAN_ID,planKey:"w35-race",planWeek:35,date:dateAt(34,6),sport:"Triathlon",title:"RACE DAY — IRONMAN 70.3 Musselman",duration:"",distance:"",unit:"",intensity:"Moderate",completed:false,time:"",notes:"1.2 mi swim, 56 mi bike, 13.1 mi run. Review official race instructions, fueling, pacing, transitions, and safety. Log your final time after finishing."});
   return sessions;
  }
  push(1,"swim-tech","Swim","Technique swim",26+.85*w,skillYards,"yd","Easy","Swim in manageable intervals. Focus on relaxed breathing, body position and efficient strokes. The yardage is the total session, not a continuous-swim requirement. Take rests as needed; seek coaching for technique.");
